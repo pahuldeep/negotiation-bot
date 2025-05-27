@@ -5,7 +5,7 @@ from transformers import pipeline, AutoTokenizer, AutoModelForTokenClassificatio
 
 
 # ==================================================
-# FINANCE IDENTIFICATION (Finance-NER (Name entity recoginition))
+# FINANCE IDENTIFICATION (Finance-NER)
 # ==================================================
 
 # Quantitative (profit, loss, percentage)

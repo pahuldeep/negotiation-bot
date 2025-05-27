@@ -5,9 +5,8 @@ import requests
 from app.chatbot.strategy.strategy_analysis import run_analysis_pipeline
 # from strategy.strategy_analysis import run_analysis_pipeline
 
-
 class NegotiationBot:
-    def __init__(self, model_host="192.168.1.54", model_port=11434, model="mistral:latest"):
+    def __init__(self, model_host="localhost", model_port=11434, model="mistral:latest"):
         self.session_id = None
         self.messages = []
         self.model = model
@@ -53,7 +52,6 @@ class NegotiationBot:
         # Get current parameters
         parameters = self.sessions[self.session_id]["parameters"]
         
-        # Update only provided parameters
         for key, value in kwargs.items():
             if key in parameters:
                 parameters[key] = value
@@ -61,18 +59,7 @@ class NegotiationBot:
         return {"message": "Parameters updated successfully"}
     
     def enrich_with_analysis(self, user_input):
-        
-        
-        # Simplified analysis function since we don't have the actual run_analysis_pipeline
         if user_input not in self.memory:
-           
-            # analysis = {
-            #     "sentiment": "neutral",
-            #     "intent": "price_negotiation",
-            #     "key_entities": ["price", "deal"],
-            #     "analysis": f"User is discussing price points around {user_input}"
-            # }
-            # self.memory[user_input] = analysis
             self.memory[user_input] = run_analysis_pipeline(user_input)
             
         if len(self.memory) > 10:
@@ -136,9 +123,9 @@ class NegotiationBot:
         import re
         price_mentions = re.findall(r'\$?(\d+(?:\.\d+)?)', user_input)
         mentioned_price = float(price_mentions[0]) if price_mentions else None
-        
 
         strategy_guidance = ""
+
         if mentioned_price is not None:
             max_price = context['max_price']
             target_price = context['target_price'] 
@@ -266,13 +253,6 @@ if __name__ == "__main__":
         
     try:
         bot.chat()
-
-        # user_input = input("\nENTER INPUT: ")
-        # user_input = "Can we close this deal around 700$?"
-        # print(f"\n[User]: {user_input}")
-
-        # ai_reply = bot.send_message(user_input)
-        # print(f"\n[AI]: {ai_reply}")
 
     except Exception as e:
         print(f"[Error] Failed during message exchange: {e}")

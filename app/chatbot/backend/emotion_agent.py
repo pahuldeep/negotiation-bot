@@ -6,7 +6,6 @@ from transformers import pipeline, AutoTokenizer, AutoModelForSequenceClassifica
 # ==================================================
 # EMOTION IDENTIFICATION
 # ==================================================
-
 class EmotionAnalyzer:
     def __init__(
         self,
@@ -64,8 +63,4 @@ class EmotionAnalyzer:
         return " | ".join(parts)
 
 
-# ================================================
-# EXTRA 
-# ================================================
 
-# KPI refinements: (user satisfaction, user retentions, user churn rate)
